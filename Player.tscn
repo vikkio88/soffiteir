@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://gunno.obj" type="ArrayMesh" id=2]
@@ -15,6 +15,129 @@ radius = 0.5
 [sub_resource type="CapsuleMesh" id=2]
 radius = 0.5
 
+[sub_resource type="Animation" id=5]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( -0.8, -180, -90 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("../../..:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "shoot"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.108176, 0.197233 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 0.4 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.144415, 0.193988 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, -180, -90 ), Vector3( -5, -180, -90 ), Vector3( 0, -180, -90 ) ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "Headbob"
+length = 0.3
+step = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("..:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.163886, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0.5, 0 ), Vector3( 0, 0.55, 0 ), Vector3( 0, 0.5, 0 ) ]
+}
+
+[sub_resource type="Animation" id=4]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, -0.05492 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("..:transform")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("..:translation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0.7, 0 ) ]
+}
+
 [node name="FPS" type="KinematicBody"]
 script = ExtResource( 1 )
 
@@ -28,7 +151,7 @@ mesh = SubResource( 2 )
 material/0 = null
 
 [node name="Head" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.7, 0 )
 
 [node name="Camera" type="Camera" parent="Head"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.05492 )
@@ -39,11 +162,13 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -0.7 )
 script = ExtResource( 3 )
 default_pos = Vector3( 0.627, -0.774, -1.12 )
 ads_pos = Vector3( 0, -0.5, -1.12 )
+sway_left = Vector3( 0, 0.1, 0 )
+sway_right = Vector3( 0, -0.1, 0 )
 camera_node_path = NodePath("..")
 player_node_path = NodePath("../../..")
 
 [node name="Gun" type="MeshInstance" parent="Head/Camera/Hand"]
-transform = Transform( 2.18557e-08, -0.5, -7.54979e-08, -0.5, -2.18557e-08, -1.32349e-22, -3.30012e-15, 7.54979e-08, -0.5, 0, 0, 0 )
+transform = Transform( 2.2466e-08, -0.5, 4.37071e-08, -0.499951, -2.18536e-08, 0.00698109, -0.00698109, -4.40165e-08, -0.499951, 0, 0, 0 )
 mesh = ExtResource( 2 )
 material/0 = null
 material/1 = null
@@ -51,6 +176,10 @@ material/2 = null
 
 [node name="Muzzle" type="Spatial" parent="Head/Camera/Hand/Gun"]
 transform = Transform( 1, -9.96608e-22, 0, -9.96609e-22, 1, 0, 0, 0, 1, -0.778228, 1.4115e-07, 1.6709 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Head/Camera/Hand/Gun"]
+anims/RESET = SubResource( 5 )
+anims/shoot = SubResource( 6 )
 
 [node name="CenterContainer" type="CenterContainer" parent="Head/Camera"]
 anchor_right = 1.0
@@ -60,10 +189,10 @@ __meta__ = {
 }
 
 [node name="Crosshair" type="TextureRect" parent="Head/Camera/CenterContainer"]
-margin_left = 512.0
-margin_top = 300.0
-margin_right = 512.0
-margin_bottom = 300.0
+margin_left = 640.0
+margin_top = 360.0
+margin_right = 640.0
+margin_bottom = 360.0
 texture = ExtResource( 4 )
 expand = true
 stretch_mode = 4
@@ -78,10 +207,10 @@ one_shot = true
 
 [node name="HitCrosshair" type="TextureRect" parent="Head/Camera/CenterContainer"]
 visible = false
-margin_left = 491.0
-margin_top = 279.0
-margin_right = 532.0
-margin_bottom = 320.0
+margin_left = 619.0
+margin_top = 339.0
+margin_right = 660.0
+margin_bottom = 380.0
 texture = ExtResource( 7 )
 script = ExtResource( 6 )
 
@@ -89,23 +218,29 @@ script = ExtResource( 6 )
 wait_time = 0.9
 one_shot = true
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Head/Camera"]
+[node name="Hud" type="Control" parent="Head/Camera"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Info" type="Label" parent="Head/Camera/VBoxContainer"]
-margin_left = 1.0
-margin_top = 1.0
+[node name="Info" type="Label" parent="Head/Camera/Hud"]
+anchor_left = 0.5
+anchor_top = 0.3
+anchor_right = 0.5
+anchor_bottom = 0.3
 script = ExtResource( 8 )
 PlayerNode = NodePath("../../../..")
 
-[node name="Timer" type="Timer" parent="Head/Camera/VBoxContainer/Info"]
+[node name="Timer" type="Timer" parent="Head/Camera/Hud/Info"]
 wait_time = 0.9
 one_shot = true
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Head/Camera"]
+anims/Headbob = SubResource( 3 )
+anims/RESET = SubResource( 4 )
+
 [connection signal="timeout" from="Head/Camera/CenterContainer/Crosshair/Timer" to="Head/Camera/CenterContainer/Crosshair" method="_on_Timer_timeout"]
 [connection signal="timeout" from="Head/Camera/CenterContainer/HitCrosshair/Timer" to="Head/Camera/CenterContainer/HitCrosshair" method="_on_Timer_timeout"]
-[connection signal="timeout" from="Head/Camera/VBoxContainer/Info/Timer" to="Head/Camera/VBoxContainer/Info" method="_on_Timer_timeout"]
+[connection signal="timeout" from="Head/Camera/Hud/Info/Timer" to="Head/Camera/Hud/Info" method="_on_Timer_timeout"]

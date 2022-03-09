@@ -19,14 +19,18 @@ var movement = Vector3()
 onready var head = $Head
 onready var camera = $Head/Camera
 onready var muzzle = $Head/Camera/Hand/Gun/Muzzle
+onready var cameraAnim = $Head/Camera/AnimationPlayer
+onready var gunAnim = $Head/Camera/Hand/Gun/AnimationPlayer
 
 onready var bullet = preload("res://Bullet.tscn")
 
 var is_on_ads = false
+var rng = RandomNumberGenerator.new()
 
 func _ready():
 	#hides the cursor
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	cameraAnim.play("Headbob")
 
 func _input(event):
 	#get mouse input for camera rotation
@@ -50,13 +54,19 @@ func get_speed():
 	if not is_on_ads:
 		return speed
 	
-	return speed / 3
+	return speed * .4
 
 func get_mouse_sense():
 	if not is_on_ads:
 		return mouse_sense
 	
 	return mouse_sense / 2
+
+func get_jump_force():
+	if not is_on_ads:
+		return jump
+	
+	return jump * .7
 
 func set_ads(value:bool):
 	is_on_ads = value
@@ -67,6 +77,8 @@ func _physics_process(delta):
 		get_tree().get_root().add_child(b)
 		b.global_transform = muzzle.global_transform
 		b.shoot()
+		gunAnim.play("shoot")
+		head.rotation.x += (randi() % (5 if is_on_ads else 10)) / 100.0
 	
 	direction = Vector3.ZERO
 	var h_rot = global_transform.basis.get_euler().y
@@ -86,10 +98,12 @@ func _physics_process(delta):
 		
 	if Input.is_action_just_pressed("jump") and is_on_floor():
 		snap = Vector3.ZERO
-		gravity_vec = Vector3.UP * jump
+		gravity_vec = Vector3.UP * get_jump_force()
 	
 	#make it move
 	velocity = velocity.linear_interpolate(direction * get_speed(), accel * delta)
 	movement = velocity + gravity_vec
 	
 	move_and_slide_with_snap(movement, snap, Vector3.UP)
+	if direction != Vector3.ZERO:
+		cameraAnim.play("Headbob")

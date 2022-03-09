@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Bullet.gd" type="Script" id=1]
 
@@ -14,10 +14,6 @@ mid_height = 0.1
 albedo_color = Color( 0.996078, 1, 0.870588, 1 )
 metallic = 0.47
 
-[sub_resource type="CapsuleShape" id=4]
-radius = 0.06
-height = 0.2
-
 [node name="Bullet" type="RigidBody"]
 collision_layer = 0
 mass = 0.0102041
@@ -30,15 +26,12 @@ shape = SubResource( 1 )
 mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
 
-[node name="Area" type="Area" parent="."]
-collision_layer = 0
-
-[node name="CollisionShape" type="CollisionShape" parent="Area"]
-shape = SubResource( 4 )
-
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
 
-[connection signal="body_entered" from="Area" to="." method="_on_Area_body_entered"]
+[node name="RayCast" type="RayCast" parent="."]
+enabled = true
+cast_to = Vector3( 0, 0, 1 )
+
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
