@@ -31,7 +31,9 @@ wait_time = 3.0
 one_shot = true
 
 [node name="RayCast" type="RayCast" parent="."]
+transform = Transform( 2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0 )
 enabled = true
-cast_to = Vector3( 0, 0, 1 )
+cast_to = Vector3( 0, 0, 0.5 )
+debug_shape_thickness = 5.0
 
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

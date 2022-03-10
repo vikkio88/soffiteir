@@ -2,7 +2,7 @@ extends RigidBody
 
 
 const DAMAGE = 50
-const SPEED = 1
+const SPEED = .5
 
 onready var hole = preload("res://BulletHole.tscn")
 onready var ray = $RayCast

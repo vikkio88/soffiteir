@@ -25,11 +25,14 @@ onready var gunAnim = $Head/Camera/Hand/Gun/AnimationPlayer
 onready var bullet = preload("res://Bullet.tscn")
 
 var is_on_ads = false
-var rng = RandomNumberGenerator.new()
+
+var is_mouse_captured = false
 
 func _ready():
+	randomize()
 	#hides the cursor
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	is_mouse_captured = true
 	cameraAnim.play("Headbob")
 
 func _input(event):
@@ -38,6 +41,8 @@ func _input(event):
 		rotate_y(deg2rad(-event.relative.x * get_mouse_sense()))
 		head.rotate_x(deg2rad(-event.relative.y * get_mouse_sense()))
 		head.rotation.x = clamp(head.rotation.x, deg2rad(-89), deg2rad(89))
+	
+	
 
 func _process(delta):
 	#camera physics interpolation to reduce physics jitter on high refresh-rate monitors
@@ -49,6 +54,14 @@ func _process(delta):
 	else:
 		camera.set_as_toplevel(false)
 		camera.global_transform = head.global_transform
+	
+	if Input.is_action_just_released("escape"):
+		if is_mouse_captured:
+			is_mouse_captured = false
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+		else:
+			is_mouse_captured = true
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 func get_speed():
 	if not is_on_ads:
