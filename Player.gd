@@ -98,8 +98,7 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("fire"):
 		var b = bullet.instance()
 		get_tree().get_root().add_child(b)
-		b.global_transform = muzzle.global_transform
-		b.shoot()
+		b.shoot_from(muzzle.global_transform)
 		gunAnim.play("shoot")
 		head.rotation.x += get_recoil()
 	
@@ -130,3 +129,4 @@ func _physics_process(delta):
 	move_and_slide_with_snap(movement, snap, Vector3.UP)
 	if direction != Vector3.ZERO:
 		cameraAnim.play("Headbob")
+

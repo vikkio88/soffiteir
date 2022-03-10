@@ -2,14 +2,17 @@ extends RigidBody
 
 
 const DAMAGE = 50
-const SPEED = .6
+const SPEED = .9
 
 onready var hole = preload("res://BulletHole.tscn")
 onready var rayFront = $RayCastFront
 onready var rayDown = $RayCastDown
 onready var rayUp = $RayCastUp
 
+var starting_point = Vector3.ZERO
+
 func _ready():
+	starting_point = transform.origin
 	set_as_toplevel(true)
 
 func check_hit(ray):
@@ -21,9 +24,11 @@ func check_hit(ray):
 		bulletHole.global_transform.origin = ray.get_collision_point()
 		bulletHole.look_at(ray.get_collision_point() - ray.get_collision_normal() , Vector3.UP)
 		if collisionbody.is_in_group("Enemy"):
-			#body.health -= DAMAGE
+			var hit_distance = ray.get_collision_point().distance_to(starting_point)
 			print_debug("%s hit enemy" % OS.get_unix_time())
-			EventBus.emit_signal("target_hit", ray.get_collision_point())
+			if collisionbody.has_method("receive_damage"):
+				collisionbody.receive_damage(DAMAGE, ray.get_collision_point())
+			EventBus.emit_signal("target_hit", hit_distance)
 			return true
 		else:
 			print_debug("%s missed" % OS.get_unix_time())
@@ -55,7 +60,9 @@ func _physics_process(delta):
 #		ray = rayUp
 	
 	
-func shoot():
+func shoot_from(muzzle_transform):
+	global_transform = muzzle_transform
+	starting_point = global_transform.origin
 	var forward_dir = global_transform.basis.z.normalized()
 	apply_impulse(-forward_dir, forward_dir * SPEED)
 	$Timer.start()
