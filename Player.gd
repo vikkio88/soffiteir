@@ -36,6 +36,8 @@ func _ready():
 	cameraAnim.play("Headbob")
 
 func _input(event):
+	if not is_mouse_captured:
+		return
 	#get mouse input for camera rotation
 	if event is InputEventMouseMotion:
 		rotate_y(deg2rad(-event.relative.x * get_mouse_sense()))
@@ -83,15 +85,23 @@ func get_jump_force():
 
 func set_ads(value:bool):
 	is_on_ads = value
+
+func get_recoil():
+	var maxVal = (5 if is_on_ads else 10)
+	var minVal = (2 if is_on_ads else 5)
+	return ((randi() % maxVal) + minVal) / 100.0
 		
 func _physics_process(delta):
+	if not is_mouse_captured:
+		return
+	
 	if Input.is_action_just_pressed("fire"):
 		var b = bullet.instance()
 		get_tree().get_root().add_child(b)
 		b.global_transform = muzzle.global_transform
 		b.shoot()
 		gunAnim.play("shoot")
-		head.rotation.x += (randi() % (5 if is_on_ads else 10)) / 100.0
+		head.rotation.x += get_recoil()
 	
 	direction = Vector3.ZERO
 	var h_rot = global_transform.basis.get_euler().y

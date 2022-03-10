@@ -2,15 +2,17 @@ extends RigidBody
 
 
 const DAMAGE = 50
-const SPEED = .5
+const SPEED = .6
 
 onready var hole = preload("res://BulletHole.tscn")
-onready var ray = $RayCast
+onready var rayFront = $RayCastFront
+onready var rayDown = $RayCastDown
+onready var rayUp = $RayCastUp
 
 func _ready():
 	set_as_toplevel(true)
 
-func _physics_process(delta):
+func check_hit(ray):
 	if ray.is_colliding():
 		print_debug("collided")
 		var collisionbody = ray.get_collider()
@@ -22,10 +24,37 @@ func _physics_process(delta):
 			#body.health -= DAMAGE
 			print_debug("%s hit enemy" % OS.get_unix_time())
 			EventBus.emit_signal("target_hit", ray.get_collision_point())
-			queue_free()
+			return true
 		else:
 			print_debug("%s missed" % OS.get_unix_time())
-			queue_free()
+			return true
+		
+		return false
+			
+
+func _physics_process(delta):
+	var hit = check_hit(rayFront)
+	if hit:
+		queue_free()
+		return
+		
+	hit = check_hit(rayUp)
+	if hit:
+		queue_free()
+		return
+		
+	hit = check_hit(rayDown)
+	if hit:
+		queue_free()
+		return
+		
+	
+#	if rayDown.is_colliding():
+#		ray = rayDown
+#	elif rayUp.is_colliding():
+#		ray = rayUp
+	
+	
 func shoot():
 	var forward_dir = global_transform.basis.z.normalized()
 	apply_impulse(-forward_dir, forward_dir * SPEED)

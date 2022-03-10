@@ -158,10 +158,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.05492 )
 far = 298.4
 
 [node name="Hand" type="Spatial" parent="Head/Camera"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, -0.7 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.627, -0.774, -1.12 )
 script = ExtResource( 3 )
 default_pos = Vector3( 0.627, -0.774, -1.12 )
-ads_pos = Vector3( 0, -0.5, -1.12 )
+ads_pos = Vector3( 0, -0.51, -1.1 )
 sway_left = Vector3( 0, 0.1, 0 )
 sway_right = Vector3( 0, -0.1, 0 )
 camera_node_path = NodePath("..")
