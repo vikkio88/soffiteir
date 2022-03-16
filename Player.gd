@@ -62,8 +62,7 @@ func _process(delta):
 			is_mouse_captured = false
 			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 		else:
-			is_mouse_captured = true
-			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+			get_tree().quit()
 
 func get_speed():
 	if not is_on_ads:
@@ -96,9 +95,13 @@ func _physics_process(delta):
 		return
 	
 	if Input.is_action_just_pressed("fire"):
+		if not is_mouse_captured:
+			Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+			return
 		var b = bullet.instance()
 		get_tree().get_root().add_child(b)
 		b.shoot_from(muzzle.global_transform)
+		print_debug(muzzle.global_transform)
 		gunAnim.play("shoot")
 		head.rotation.x += get_recoil()
 	

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 [ext_resource path="res://gunno.obj" type="ArrayMesh" id=2]
@@ -56,6 +56,18 @@ tracks/2/keys = {
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ) ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("Shell:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=6]
 resource_name = "shoot"
@@ -84,6 +96,29 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector3( 0, -180, -90 ), Vector3( -5, -180, -90 ), Vector3( 0, -180, -90 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("Shell:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.0259495, 0.10796 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false ]
+}
+
+[sub_resource type="ParticlesMaterial" id=8]
+direction = Vector3( 1, 0, 1 )
+spread = 14.12
+gravity = Vector3( 0, 0, 9 )
+initial_velocity = 1.0
+
+[sub_resource type="CylinderMesh" id=9]
+top_radius = 0.01
+bottom_radius = 0.01
+height = 0.05
 
 [sub_resource type="GDScript" id=7]
 script/source = "extends Label
@@ -192,12 +227,17 @@ transform = Transform( 1, -9.96608e-22, 0, -9.96609e-22, 1, 0, 0, 0, 1, -0.77822
 anims/RESET = SubResource( 5 )
 anims/shoot = SubResource( 6 )
 
+[node name="Shell" type="Particles" parent="Head/Camera/Hand/Gun"]
+transform = Transform( -1.98729, -0.024307, -0.223853, 0.224624, -0.0758857, -1.9859, 0.015642, -1.99842, 0.0781332, -0.97754, -0.123796, -1.07866 )
+emitting = false
+amount = 1
+visibility_aabb = AABB( -4, -3.2041, -4, 8, 8, 8 )
+process_material = SubResource( 8 )
+draw_pass_1 = SubResource( 9 )
+
 [node name="CenterContainer" type="CenterContainer" parent="Head/Camera"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Crosshair" type="TextureRect" parent="Head/Camera/CenterContainer"]
 margin_left = 640.0
