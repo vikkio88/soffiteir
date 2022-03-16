@@ -2,7 +2,7 @@ extends RigidBody
 
 onready var Head = $Head/HeadShape
 
-var health = 1000
+var health = 100
 
 func receive_damage(dmg, hit_point):
 	var distance_from_head = hit_point.distance_to(Head.global_transform.origin)
