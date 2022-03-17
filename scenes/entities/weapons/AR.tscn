@@ -1,0 +1,78 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://models/ar.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://scripts/weapons/AR.gd" type="Script" id=2]
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:translation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "Shoot"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.113449, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 3.393, 0, 0 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:translation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.129097, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 0.129099 ), Vector3( 0, 0, 0 ) ]
+}
+
+[node name="AR" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="Gun" type="MeshInstance" parent="."]
+transform = Transform( -0.5, 0, -9.05975e-08, 0, 0.5, 0, 7.54979e-08, 0, -0.6, 0, -0.076917, 0 )
+mesh = ExtResource( 1 )
+material/0 = null
+material/1 = null
+material/2 = null
+
+[node name="Muzzle" type="Spatial" parent="Gun"]
+transform = Transform( 1, 0, -8.52651e-14, 0, 1, 0, 0, 0, 1, -4.20086e-07, 0.734801, 2.31842 )
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 1 )
+anims/Shoot = SubResource( 2 )
+
+[connection signal="animation_finished" from="Animation" to="." method="_on_Animation_animation_finished"]

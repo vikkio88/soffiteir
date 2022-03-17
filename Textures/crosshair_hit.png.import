@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/texture_02.png-1b53695c46a38454e7cc3d08bd490447.stex"
+path="res://.import/crosshair_hit.png-cba09cba034b0a12ccef244c64811e87.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://textures/Wall/Red/texture_02.png"
-dest_files=[ "res://.import/texture_02.png-1b53695c46a38454e7cc3d08bd490447.stex" ]
+source_file="res://textures/crosshair_hit.png"
+dest_files=[ "res://.import/crosshair_hit.png-cba09cba034b0a12ccef244c64811e87.stex" ]
 
 [params]
 

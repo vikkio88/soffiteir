@@ -1,0 +1,208 @@
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://models/sniper.obj" type="ArrayMesh" id=1]
+[ext_resource path="res://scripts/weapons/SniperRifle.gd" type="Script" id=2]
+[ext_resource path="res://textures/flash07.png" type="Texture" id=3]
+
+[sub_resource type="SpatialMaterial" id=5]
+flags_transparent = true
+albedo_color = Color( 0.898039, 0.862745, 0.321569, 1 )
+albedo_texture = ExtResource( 3 )
+emission_enabled = true
+emission = Color( 0.737255, 0.737255, 0.537255, 1 )
+emission_energy = 2.0
+emission_operator = 0
+emission_on_uv2 = false
+
+[sub_resource type="ParticlesMaterial" id=6]
+gravity = Vector3( 0, 0, 0 )
+color = Color( 0.964706, 0.964706, 0.964706, 1 )
+
+[sub_resource type="QuadMesh" id=7]
+size = Vector2( 0.2, 0.2 )
+
+[sub_resource type="ParticlesMaterial" id=3]
+direction = Vector3( 1, 0, 1 )
+spread = 14.12
+gravity = Vector3( 0, 0, 9 )
+initial_velocity = 1.0
+
+[sub_resource type="CylinderMesh" id=4]
+top_radius = 0.01
+bottom_radius = 0.01
+height = 0.05
+
+[sub_resource type="Animation" id=8]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gun:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, -0.06, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Gun:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Gun/Muzzle/Flash:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Gun/Shell:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=10]
+resource_name = "Rechamber"
+length = 0.5
+step = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gun:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.169522, 0.495346 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 2.20511e-09, -0.06, -0.0252235 ), Vector3( -2.80273e-09, -0.06, 0.0320594 ), Vector3( 2.20511e-09, -0.06, -0.0252235 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Gun:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.242547, 0.49665 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( -0.678015, 2.92711e-09, -5.94659e-08 ), Vector3( -0.670394, -0.10138, 8.59959 ), Vector3( -0.678015, 2.92711e-09, -5.94659e-08 ) ]
+}
+
+[sub_resource type="Animation" id=9]
+resource_name = "Shoot"
+length = 0.35
+step = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gun:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.173434, 0.349476 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, -0.06, 0 ), Vector3( 1.83299e-08, -0.06, -0.20967 ), Vector3( 0, -0.06, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Gun:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.173434, 0.349476 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( -5.636, 2.43316e-08, -4.9431e-07 ), Vector3( 0, 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Gun/Muzzle/Flash:emitting")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.349476 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Gun/Shell:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.0208642, 0.35 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+
+[node name="SniperRifle" type="Spatial"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
+script = ExtResource( 2 )
+
+[node name="Gun" type="MeshInstance" parent="."]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, -0.06, 0 )
+mesh = ExtResource( 1 )
+material/0 = null
+material/1 = null
+material/2 = null
+
+[node name="Muzzle" type="Spatial" parent="Gun"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.69851, 4.66903 )
+
+[node name="Flash" type="Particles" parent="Gun/Muzzle"]
+transform = Transform( 3.82137e-15, -8.74228e-08, 2, -2, -8.74227e-08, 0, 8.74227e-08, -2, -8.74227e-08, -1.83923e-08, 0.0289438, 0.210383 )
+material_override = SubResource( 5 )
+cast_shadow = 0
+emitting = false
+amount = 1
+lifetime = 0.3
+one_shot = true
+process_material = SubResource( 6 )
+draw_pass_1 = SubResource( 7 )
+
+[node name="Shell" type="Particles" parent="Gun"]
+transform = Transform( -1.98729, -0.024307, -0.223853, 0.224624, -0.0758857, -1.9859, 0.015642, -1.99842, 0.0781331, -0.320304, 1.00816, 1.24902 )
+emitting = false
+amount = 1
+lifetime = 0.2
+one_shot = true
+visibility_aabb = AABB( -4, -3.2041, -4, 8, 8, 8 )
+process_material = SubResource( 3 )
+draw_pass_1 = SubResource( 4 )
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 8 )
+anims/Rechamber = SubResource( 10 )
+anims/Shoot = SubResource( 9 )
+
+[connection signal="animation_finished" from="Animation" to="." method="_on_Animation_animation_finished"]
