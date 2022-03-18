@@ -28,13 +28,14 @@ var previous_ads = 0
 onready var sniper = $SniperRifle
 onready var ar = $AR
 
-onready var activeWeapon = $AR
+onready var activeWeapon = $SniperRifle
 
 
 func _ready():
 	camera = get_node(camera_node_path)
 	player = get_node(player_node_path)
 	fview["default"] = camera.fov
+	ads_lerp = activeWeapon.ads_speed
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -77,7 +78,15 @@ func has_bolt_action() -> bool:
 	return activeWeapon.is_bolt_action
 
 func shoot_weapon(delta) -> float:
-	if activeWeapon.is_ready:
+	if activeWeapon.can_fire:
 		return activeWeapon.shoot(delta, player.is_on_ads)
 	else:
 		return .0
+
+
+func _on_WeaponBounds_body_entered(body):
+	activeWeapon.move_away()
+
+
+func _on_WeaponBounds_body_exited(body):
+	activeWeapon.reset_position()

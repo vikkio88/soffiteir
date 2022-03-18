@@ -11,7 +11,7 @@ var bullet_damage = 10
 
 var ads_speed = 20
 
-var is_ready = true
+var can_fire = true
 
 func get_recoil(is_on_ads:bool) -> float:
 	var maxVal = (5 if is_on_ads else 10)
@@ -20,3 +20,11 @@ func get_recoil(is_on_ads:bool) -> float:
 
 func shoot(delta, is_on_ads:bool)-> float:
 	return get_recoil(is_on_ads)
+
+func move_away():
+	can_fire = false
+	print_debug("moving away")
+
+func reset_position():
+	can_fire = true
+	print_debug("resetting")

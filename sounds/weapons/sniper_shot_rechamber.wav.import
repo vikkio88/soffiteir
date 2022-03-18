@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sniper_shot_rechamber.wav-dcd76f644236774a04fdbd6a3732c9a4.sample"
+
+[deps]
+
+source_file="res://sounds/weapons/sniper_shot_rechamber.wav"
+dest_files=[ "res://.import/sniper_shot_rechamber.wav-dcd76f644236774a04fdbd6a3732c9a4.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

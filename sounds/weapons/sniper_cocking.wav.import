@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/sniper_cocking.wav-3327e157c8d512fa41ffd302e0b8a7e1.sample"
+
+[deps]
+
+source_file="res://sounds/weapons/sniper_cocking.wav"
+dest_files=[ "res://.import/sniper_cocking.wav-3327e157c8d512fa41ffd302e0b8a7e1.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

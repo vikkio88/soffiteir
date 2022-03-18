@@ -1,12 +1,71 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://models/ar.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://scripts/weapons/AR.gd" type="Script" id=2]
+[ext_resource path="res://sounds/weapons/single_shot.wav" type="AudioStream" id=3]
+[ext_resource path="res://textures/flash07.png" type="Texture" id=4]
+
+[sub_resource type="SpatialMaterial" id=16]
+flags_transparent = true
+albedo_color = Color( 0.898039, 0.862745, 0.321569, 1 )
+albedo_texture = ExtResource( 4 )
+emission_enabled = true
+emission = Color( 0.737255, 0.737255, 0.537255, 1 )
+emission_energy = 2.0
+emission_operator = 0
+emission_on_uv2 = false
+
+[sub_resource type="Curve" id=17]
+_data = [ Vector2( 0.0163043, 0.0443182 ), 0.0, 0.0, 0, 0, Vector2( 0.505435, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.107955 ), -3.34545, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=12]
+curve = SubResource( 17 )
+
+[sub_resource type="ParticlesMaterial" id=18]
+gravity = Vector3( 0, 0, 0 )
+scale_curve = SubResource( 12 )
+color = Color( 0.964706, 0.964706, 0.964706, 1 )
+
+[sub_resource type="QuadMesh" id=19]
+size = Vector2( 0.2, 0.2 )
+
+[sub_resource type="ParticlesMaterial" id=14]
+direction = Vector3( 1, 0, -1 )
+spread = 39.23
+gravity = Vector3( 0, 0, 9 )
+initial_velocity = 1.0
+
+[sub_resource type="SpatialMaterial" id=13]
+albedo_color = Color( 0.921569, 0.709804, 0.109804, 1 )
+metallic = 0.55
+roughness = 0.37
+
+[sub_resource type="CylinderMesh" id=15]
+material = SubResource( 13 )
+top_radius = 0.012
+bottom_radius = 0.012
+height = 0.06
+
+[sub_resource type="Animation" id=3]
+resource_name = "MoveAway"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gun:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, -180, 0 ), Vector3( -67.353, -180, -2.07357e-05 ) ]
+}
 
 [sub_resource type="Animation" id=1]
 length = 0.001
 tracks/0/type = "value"
-tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/path = NodePath("Gun/Shell:emitting")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -15,10 +74,10 @@ tracks/0/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector3( 0, 0, 0 ) ]
+"values": [ false ]
 }
 tracks/1/type = "value"
-tracks/1/path = NodePath(".:translation")
+tracks/1/path = NodePath("Gun/Muzzle/Flash:emitting")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/imported = false
@@ -27,7 +86,23 @@ tracks/1/keys = {
 "times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 0,
-"values": [ Vector3( 0, 0, 0 ) ]
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "ResetPosition"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gun:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -67.353, -180, -2.07357e-05 ), Vector3( 0, -180, 0 ) ]
 }
 
 [sub_resource type="Animation" id=2]
@@ -57,22 +132,83 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 0.129099 ), Vector3( 0, 0, 0 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("Shooting:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Gun/Shell:emitting")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.0541086, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Gun/Muzzle/Flash:emitting")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ true, false ]
+}
 
 [node name="AR" type="Spatial"]
 script = ExtResource( 2 )
 
 [node name="Gun" type="MeshInstance" parent="."]
-transform = Transform( -0.5, 0, -9.05975e-08, 0, 0.5, 0, 7.54979e-08, 0, -0.6, 0, -0.076917, 0 )
+transform = Transform( -0.5, 0, 5.24537e-08, 0, 0.5, 0, -4.37114e-08, 0, -0.6, 0, -0.076917, 0 )
 mesh = ExtResource( 1 )
 material/0 = null
 material/1 = null
 material/2 = null
 
 [node name="Muzzle" type="Spatial" parent="Gun"]
-transform = Transform( 1, 0, -8.52651e-14, 0, 1, 0, 0, 0, 1, -4.20086e-07, 0.734801, 2.31842 )
+transform = Transform( 1, 0, -8.52651e-14, 0, 1, 0, 0, 0, 1, -4.20086e-07, 0.76415, 2.31842 )
+
+[node name="Flash" type="Particles" parent="Gun/Muzzle"]
+transform = Transform( 3.14556e-08, -0.70365, 1.87213, -2, -1.04308e-07, 0, 8.36908e-08, -1.87213, -0.703651, -1.8961e-07, 0.0372905, 0.0307484 )
+material_override = SubResource( 16 )
+cast_shadow = 0
+emitting = false
+amount = 1
+lifetime = 0.1
+process_material = SubResource( 18 )
+draw_pass_1 = SubResource( 19 )
+
+[node name="Shell" type="Particles" parent="Gun"]
+transform = Transform( -3.97396, -0.0943719, -0.445888, 0.449248, -0.151771, -3.9718, 0.06399, -3.33002, 0.134485, -0.195985, 0.936383, 0.819897 )
+emitting = false
+amount = 1
+lifetime = 0.3
+visibility_aabb = AABB( -4, -3.2041, -4, 8, 8, 8 )
+process_material = SubResource( 14 )
+draw_pass_1 = SubResource( 15 )
 
 [node name="Animation" type="AnimationPlayer" parent="."]
+anims/MoveAway = SubResource( 3 )
 anims/RESET = SubResource( 1 )
+anims/ResetPosition = SubResource( 4 )
 anims/Shoot = SubResource( 2 )
+
+[node name="Shooting" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 3 )
+volume_db = 2.0
 
 [connection signal="animation_finished" from="Animation" to="." method="_on_Animation_animation_finished"]

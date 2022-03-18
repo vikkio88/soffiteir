@@ -48,7 +48,7 @@ func _input(event):
 	if Input.is_action_just_pressed("weapon_1"):
 		Hand.switch_weapon(1)
 	if Input.is_action_just_pressed("weapon_2"):
-		Hand.switch_weapon(2)
+		Hand.switch_weapon(2 )
 	
 	
 

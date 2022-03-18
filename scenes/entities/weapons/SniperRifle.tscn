@@ -1,8 +1,10 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://models/sniper.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://scripts/weapons/SniperRifle.gd" type="Script" id=2]
 [ext_resource path="res://textures/flash07.png" type="Texture" id=3]
+[ext_resource path="res://sounds/weapons/sniper_shot.wav" type="AudioStream" id=4]
+[ext_resource path="res://sounds/weapons/sniper_cocking.wav" type="AudioStream" id=5]
 
 [sub_resource type="SpatialMaterial" id=5]
 flags_transparent = true
@@ -17,12 +19,12 @@ emission_on_uv2 = false
 [sub_resource type="Curve" id=11]
 _data = [ Vector2( 0.0163043, 0.0443182 ), 0.0, 0.0, 0, 0, Vector2( 0.505435, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.107955 ), -3.34545, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=12]
+[sub_resource type="CurveTexture" id=17]
 curve = SubResource( 11 )
 
 [sub_resource type="ParticlesMaterial" id=6]
 gravity = Vector3( 0, 0, 0 )
-scale_curve = SubResource( 12 )
+scale_curve = SubResource( 17 )
 color = Color( 0.964706, 0.964706, 0.964706, 1 )
 
 [sub_resource type="QuadMesh" id=7]
@@ -34,16 +36,32 @@ spread = 39.23
 gravity = Vector3( 0, 0, 9 )
 initial_velocity = 1.0
 
-[sub_resource type="SpatialMaterial" id=13]
+[sub_resource type="SpatialMaterial" id=16]
 albedo_color = Color( 0.921569, 0.709804, 0.109804, 1 )
 metallic = 0.55
 roughness = 0.37
 
 [sub_resource type="CylinderMesh" id=4]
-material = SubResource( 13 )
+material = SubResource( 16 )
 top_radius = 0.018
 bottom_radius = 0.018
 height = 0.07
+
+[sub_resource type="Animation" id=14]
+resource_name = "MoveAway"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gun:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( -77.274, 1.77292e-05, -2.21796e-05 ) ]
+}
 
 [sub_resource type="Animation" id=8]
 length = 0.001
@@ -98,7 +116,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id=10]
 resource_name = "Rechamber"
-length = 0.5
+length = 0.8
 step = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("Gun:translation")
@@ -135,6 +153,34 @@ tracks/2/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Rechambering:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=15]
+resource_name = "ResetPosition"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gun:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( -77.274, 1.77292e-05, -2.21796e-05 ), Vector3( 0, 0, 0 ) ]
 }
 
 [sub_resource type="Animation" id=9]
@@ -177,6 +223,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [ true, false ]
 }
+tracks/3/type = "value"
+tracks/3/path = NodePath("Shooting:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
 
 [node name="SniperRifle" type="Spatial"]
 transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0 )
@@ -214,8 +272,16 @@ process_material = SubResource( 3 )
 draw_pass_1 = SubResource( 4 )
 
 [node name="Animation" type="AnimationPlayer" parent="."]
+anims/MoveAway = SubResource( 14 )
 anims/RESET = SubResource( 8 )
 anims/Rechamber = SubResource( 10 )
+anims/ResetPosition = SubResource( 15 )
 anims/Shoot = SubResource( 9 )
+
+[node name="Shooting" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 4 )
+
+[node name="Rechambering" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
 
 [connection signal="animation_finished" from="Animation" to="." method="_on_Animation_animation_finished"]

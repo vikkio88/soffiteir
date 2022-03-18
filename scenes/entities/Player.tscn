@@ -1,31 +1,22 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/player/Player.gd" type="Script" id=1]
 [ext_resource path="res://scenes/entities/weapons/AR.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scripts/player/Hand.gd" type="Script" id=3]
-[ext_resource path="res://textures/crosshair.png" type="Texture" id=4]
-[ext_resource path="res://scripts/hud/Crosshair.gd" type="Script" id=5]
-[ext_resource path="res://scripts/hud/HitCrosshair.gd" type="Script" id=6]
-[ext_resource path="res://textures/crosshair_hit.png" type="Texture" id=7]
-[ext_resource path="res://scripts/hud/Info.gd" type="Script" id=8]
-[ext_resource path="res://scripts/hud/Hud.gd" type="Script" id=9]
-[ext_resource path="res://scripts/hud/KillFeed.gd" type="Script" id=10]
-[ext_resource path="res://fonts/Font.tres" type="DynamicFont" id=11]
+[ext_resource path="res://scenes/hud/Crosshairs.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scenes/hud/Hud.tscn" type="PackedScene" id=5]
 [ext_resource path="res://scenes/entities/weapons/SniperRifle.tscn" type="PackedScene" id=12]
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.5
+height = 2.0
 
 [sub_resource type="CapsuleMesh" id=2]
 radius = 0.5
+mid_height = 2.0
 
-[sub_resource type="GDScript" id=7]
-script/source = "extends Label
-
-
-func _on_Timer_timeout():
-	text= \"\"
-"
+[sub_resource type="BoxShape" id=8]
+extents = Vector3( 0.240095, 0.299395, 1.41844 )
 
 [sub_resource type="Animation" id=3]
 resource_name = "Headbob"
@@ -103,7 +94,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.05492 )
 far = 298.4
 
 [node name="Hand" type="Spatial" parent="Head/Camera"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.627, -0.774, -1.12 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.627, -0.774, -0.923156 )
 script = ExtResource( 3 )
 default_pos = Vector3( 0.627, -0.774, -1.12 )
 ads_pos = Vector3( 0, -0.51, -1.1 )
@@ -113,92 +104,23 @@ camera_node_path = NodePath("..")
 player_node_path = NodePath("../../..")
 
 [node name="SniperRifle" parent="Head/Camera/Hand" instance=ExtResource( 12 )]
-visible = false
 
 [node name="AR" parent="Head/Camera/Hand" instance=ExtResource( 2 )]
-
-[node name="CenterContainer" type="CenterContainer" parent="Head/Camera"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[node name="Crosshair" type="TextureRect" parent="Head/Camera/CenterContainer"]
-margin_left = 640.0
-margin_top = 360.0
-margin_right = 640.0
-margin_bottom = 360.0
-texture = ExtResource( 4 )
-expand = true
-stretch_mode = 4
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Timer" type="Timer" parent="Head/Camera/CenterContainer/Crosshair"]
-wait_time = 0.9
-one_shot = true
-
-[node name="HitCrosshair" type="TextureRect" parent="Head/Camera/CenterContainer"]
 visible = false
-margin_left = 619.0
-margin_top = 339.0
-margin_right = 660.0
-margin_bottom = 380.0
-texture = ExtResource( 7 )
-script = ExtResource( 6 )
 
-[node name="Timer" type="Timer" parent="Head/Camera/CenterContainer/HitCrosshair"]
-wait_time = 0.9
-one_shot = true
+[node name="WeaponBounds" type="Area" parent="Head/Camera/Hand"]
 
-[node name="Hud" type="Control" parent="Head/Camera"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-script = ExtResource( 9 )
+[node name="Bound" type="CollisionShape" parent="Head/Camera/Hand/WeaponBounds"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.314177, -0.932626 )
+shape = SubResource( 8 )
 
-[node name="Damage" type="Label" parent="Head/Camera/Hud"]
-anchor_left = 0.5
-anchor_top = 0.3
-anchor_right = 0.5
-anchor_bottom = 0.3
-margin_top = 4.2
-margin_bottom = 18.2
-custom_colors/font_color = Color( 0.992157, 0, 0, 1 )
-script = SubResource( 7 )
+[node name="Crosshairs" parent="Head/Camera" instance=ExtResource( 4 )]
 
-[node name="Timer" type="Timer" parent="Head/Camera/Hud/Damage"]
-wait_time = 0.9
-one_shot = true
-
-[node name="Info" type="Label" parent="Head/Camera/Hud"]
-anchor_left = 0.5
-anchor_top = 0.38
-anchor_right = 0.5
-anchor_bottom = 0.38
-margin_right = 40.0
-margin_bottom = 14.0
-script = ExtResource( 8 )
-
-[node name="Timer" type="Timer" parent="Head/Camera/Hud/Info"]
-wait_time = 0.9
-one_shot = true
-
-[node name="KillFeed" type="Label" parent="Head/Camera/Hud"]
-margin_right = 40.0
-margin_bottom = 14.0
-custom_fonts/font = ExtResource( 11 )
-script = ExtResource( 10 )
-
-[node name="Timer" type="Timer" parent="Head/Camera/Hud/KillFeed"]
-wait_time = 2.0
-one_shot = true
+[node name="Hud" parent="Head/Camera" instance=ExtResource( 5 )]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Head/Camera"]
 anims/Headbob = SubResource( 3 )
 anims/RESET = SubResource( 4 )
 
-[connection signal="timeout" from="Head/Camera/CenterContainer/Crosshair/Timer" to="Head/Camera/CenterContainer/Crosshair" method="_on_Timer_timeout"]
-[connection signal="timeout" from="Head/Camera/CenterContainer/HitCrosshair/Timer" to="Head/Camera/CenterContainer/HitCrosshair" method="_on_Timer_timeout"]
-[connection signal="timeout" from="Head/Camera/Hud/Damage/Timer" to="Head/Camera/Hud/Damage" method="_on_Timer_timeout"]
-[connection signal="timeout" from="Head/Camera/Hud/Info/Timer" to="Head/Camera/Hud/Info" method="_on_Timer_timeout"]
-[connection signal="timeout" from="Head/Camera/Hud/KillFeed/Timer" to="Head/Camera/Hud/KillFeed" method="_on_Timer_timeout"]
+[connection signal="body_entered" from="Head/Camera/Hand/WeaponBounds" to="Head/Camera/Hand" method="_on_WeaponBounds_body_entered"]
+[connection signal="body_exited" from="Head/Camera/Hand/WeaponBounds" to="Head/Camera/Hand" method="_on_WeaponBounds_body_exited"]

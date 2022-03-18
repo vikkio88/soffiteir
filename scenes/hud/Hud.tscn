@@ -1,0 +1,71 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://scripts/hud/Info.gd" type="Script" id=1]
+[ext_resource path="res://scripts/hud/KillFeed.gd" type="Script" id=2]
+[ext_resource path="res://fonts/Font.tres" type="DynamicFont" id=3]
+[ext_resource path="res://scripts/hud/Hud.gd" type="Script" id=4]
+[ext_resource path="res://sounds/sfx/switch_003.ogg" type="AudioStream" id=5]
+[ext_resource path="res://sounds/sfx/impactMining_000.ogg" type="AudioStream" id=6]
+[ext_resource path="res://sounds/sfx/switch_002.ogg" type="AudioStream" id=7]
+
+[sub_resource type="GDScript" id=7]
+script/source = "extends Label
+
+
+func _on_Timer_timeout():
+	text= \"\"
+"
+
+[node name="Hud" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 4 )
+
+[node name="Damage" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.3
+anchor_right = 0.5
+anchor_bottom = 0.3
+margin_top = 4.2
+margin_bottom = 18.2
+custom_colors/font_color = Color( 0.992157, 0, 0, 1 )
+script = SubResource( 7 )
+
+[node name="Timer" type="Timer" parent="Damage"]
+wait_time = 0.9
+one_shot = true
+
+[node name="Info" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.38
+anchor_right = 0.5
+anchor_bottom = 0.38
+margin_right = 40.0
+margin_bottom = 14.0
+script = ExtResource( 1 )
+
+[node name="Timer" type="Timer" parent="Info"]
+one_shot = true
+
+[node name="KillFeed" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 3 )
+script = ExtResource( 2 )
+
+[node name="Timer" type="Timer" parent="KillFeed"]
+wait_time = 2.0
+one_shot = true
+
+[node name="Kill" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+
+[node name="Hit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
+
+[node name="Headshot" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
+
+[connection signal="timeout" from="Damage/Timer" to="Damage" method="_on_Timer_timeout"]
+[connection signal="timeout" from="Info/Timer" to="Info" method="_on_Timer_timeout"]
+[connection signal="timeout" from="KillFeed/Timer" to="KillFeed" method="_on_Timer_timeout"]

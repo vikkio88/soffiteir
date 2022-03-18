@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scripts/player/Target.gd" type="Script" id=1]
 
@@ -24,7 +24,51 @@ material = SubResource( 6 )
 radius = 0.3
 height = 0.7
 
+[sub_resource type="Animation" id=7]
+resource_name = "Death"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, -90 ) ]
+}
+
+[sub_resource type="Animation" id=8]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0.0212784, 0.0884049, 0 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, -90 ) ]
+}
+
 [node name="Target" type="RigidBody" groups=["Enemy"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 mass = 52.29
 script = ExtResource( 1 )
 
@@ -46,3 +90,13 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33068, 0 )
 mesh = SubResource( 5 )
 skeleton = NodePath("")
 material/0 = null
+
+[node name="Animation" type="AnimationPlayer" parent="."]
+reset_on_save = false
+anims/Death = SubResource( 7 )
+anims/RESET = SubResource( 8 )
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
