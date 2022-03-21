@@ -46,9 +46,9 @@ func _input(event):
 	
 	
 	if Input.is_action_just_pressed("weapon_1"):
-		Hand.switch_weapon(1)
+		Hand.switch_weapon(WeaponEnums.TYPES.SNIPER)
 	if Input.is_action_just_pressed("weapon_2"):
-		Hand.switch_weapon(2 )
+		Hand.switch_weapon(WeaponEnums.TYPES.AR)
 	
 	
 
@@ -94,6 +94,9 @@ func set_ads(value:bool):
 func _physics_process(delta):
 	if not is_mouse_captured:
 		return
+	
+	if Input.is_action_just_released("reload"):
+		Hand.reload()
 	
 	if Hand.has_bolt_action():
 		if Input.is_action_just_pressed("fire"):

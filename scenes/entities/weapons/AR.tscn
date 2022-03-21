@@ -1,9 +1,10 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://models/ar.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://scripts/weapons/AR.gd" type="Script" id=2]
 [ext_resource path="res://sounds/weapons/single_shot.wav" type="AudioStream" id=3]
 [ext_resource path="res://textures/flash07.png" type="Texture" id=4]
+[ext_resource path="res://sounds/weapons/dryfire4.wav" type="AudioStream" id=5]
 
 [sub_resource type="SpatialMaterial" id=16]
 flags_transparent = true
@@ -46,6 +47,17 @@ top_radius = 0.012
 bottom_radius = 0.012
 height = 0.06
 
+[sub_resource type="ParticlesMaterial" id=20]
+
+[sub_resource type="CubeMesh" id=21]
+size = Vector3( 0.2, 0.6, 0.3 )
+
+[sub_resource type="ParticlesMaterial" id=22]
+gravity = Vector3( 0, 9.8, 0 )
+
+[sub_resource type="CubeMesh" id=23]
+size = Vector3( 0.2, 0.6, 0.3 )
+
 [sub_resource type="Animation" id=3]
 resource_name = "MoveAway"
 length = 0.3
@@ -87,6 +99,34 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ false ]
+}
+
+[sub_resource type="Animation" id=24]
+resource_name = "Reload"
+length = 1.5
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gun/MagRelease:emitting")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Gun/MagReload:emitting")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 
 [sub_resource type="Animation" id=4]
@@ -201,14 +241,35 @@ visibility_aabb = AABB( -4, -3.2041, -4, 8, 8, 8 )
 process_material = SubResource( 14 )
 draw_pass_1 = SubResource( 15 )
 
+[node name="MagRelease" type="Particles" parent="Gun"]
+transform = Transform( 0.989361, -0.145479, 1.11606e-09, 0.145479, 0.989361, -1.52618e-08, 7.75046e-10, 1.05985e-08, 1, -0.042991, 0.166361, 1.10764 )
+emitting = false
+amount = 1
+one_shot = true
+process_material = SubResource( 20 )
+draw_pass_1 = SubResource( 21 )
+
+[node name="MagReload" type="Particles" parent="Gun"]
+transform = Transform( 0.963406, -0.268046, 3.83896e-09, 0.268046, 0.963406, -2.81199e-08, 2.66594e-09, 1.95277e-08, 1, 0.161851, -0.687429, 1.11695 )
+emitting = false
+amount = 1
+lifetime = 0.5
+one_shot = true
+process_material = SubResource( 22 )
+draw_pass_1 = SubResource( 23 )
+
 [node name="Animation" type="AnimationPlayer" parent="."]
 anims/MoveAway = SubResource( 3 )
 anims/RESET = SubResource( 1 )
+anims/Reload = SubResource( 24 )
 anims/ResetPosition = SubResource( 4 )
 anims/Shoot = SubResource( 2 )
 
 [node name="Shooting" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
 volume_db = 2.0
+
+[node name="NoAmmo" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 5 )
 
 [connection signal="animation_finished" from="Animation" to="." method="_on_Animation_animation_finished"]

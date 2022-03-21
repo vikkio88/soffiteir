@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/mag_clatter.wav-601641a8b12fe18de1349b1fd4342c52.sample"
+
+[deps]
+
+source_file="res://sounds/weapons/mag_clatter.wav"
+dest_files=[ "res://.import/mag_clatter.wav-601641a8b12fe18de1349b1fd4342c52.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

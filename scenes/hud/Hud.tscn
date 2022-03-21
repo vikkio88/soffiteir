@@ -66,6 +66,26 @@ stream = ExtResource( 7 )
 [node name="Headshot" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
 
+[node name="Ammo" type="Label" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 7.0
+margin_top = -31.0
+margin_right = 121.0
+margin_bottom = -4.0
+rect_pivot_offset = Vector2( -468, -415 )
+custom_fonts/font = ExtResource( 3 )
+
+[node name="Mags" type="Label" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 121.0
+margin_top = -31.0
+margin_right = 235.0
+margin_bottom = -4.0
+rect_pivot_offset = Vector2( -468, -415 )
+custom_fonts/font = ExtResource( 3 )
+
 [connection signal="timeout" from="Damage/Timer" to="Damage" method="_on_Timer_timeout"]
 [connection signal="timeout" from="Info/Timer" to="Info" method="_on_Timer_timeout"]
 [connection signal="timeout" from="KillFeed/Timer" to="KillFeed" method="_on_Timer_timeout"]

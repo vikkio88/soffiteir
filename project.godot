@@ -9,13 +9,19 @@
 config_version=4
 
 _global_script_classes=[ {
-"base": "Node",
+"base": "Spatial",
 "class": "Weapon",
 "language": "GDScript",
 "path": "res://scripts/weapons/Weapon.gd"
+}, {
+"base": "Reference",
+"class": "WeaponEnums",
+"language": "GDScript",
+"path": "res://scripts/weapons/WeaponEnums.gd"
 } ]
 _global_script_class_icons={
-"Weapon": ""
+"Weapon": "",
+"WeaponEnums": ""
 }
 
 [application]
@@ -27,6 +33,7 @@ config/icon="res://icon.png"
 [autoload]
 
 EventBus="*res://scripts/state/EventBus.gd"
+GameState="*res://scripts/state/GameState.gd"
 
 [display]
 
@@ -83,6 +90,11 @@ weapon_1={
 weapon_2={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":50,"unicode":0,"echo":false,"script":null)
+ ]
+}
+reload={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":0,"physical_scancode":82,"unicode":0,"echo":false,"script":null)
  ]
 }
 

@@ -2,14 +2,33 @@ extends "res://scripts/weapons/Weapon.gd"
 
 onready var muzzle = $Gun/Muzzle
 onready var anim = $Animation
+onready var hitscanner = $Gun/Muzzle/CloseHitScan
+
 onready var shootingSound = $Shooting
 onready var rechamberingSound = $Rechambering
+onready var noAmmoSound = $NoAmmo
+onready var reloadSound = $Reload
+
+var temp_ammo = 0
 
 func _ready():
 	bullet_damage = 50
 	ads_speed = 10
+	type = WeaponEnums.TYPES.SNIPER
+	starting_bullets = 5
+	first_mag()
+		
 
-func shoot(delta,is_on_ads: bool)-> float:
+func empty_mag():
+	if not noAmmoSound.is_playing():
+		noAmmoSound.play()
+
+func perform_reload(ammo):
+	reloading = true
+	temp_ammo = ammo
+	anim.play("Reload")
+
+func perform_shot(delta,is_on_ads: bool):
 	var b = bullet.instance()
 	get_tree().get_root().add_child(b)
 	b.shoot_from(muzzle.global_transform, bullet_speed, bullet_damage)
@@ -17,20 +36,26 @@ func shoot(delta,is_on_ads: bool)-> float:
 	shootingSound.set_pitch_scale(scale)
 	rechamberingSound.set_pitch_scale(scale)
 	anim.play("Shoot")
-	
 	can_fire = false
-	
-	return get_recoil(is_on_ads)
-
 
 func _on_Animation_animation_finished(anim_name):
 	match anim_name:
 		"Shoot":
-			anim.play("Rechamber")
+			register_shot()
+			if has_bullets_left():
+				anim.play("Rechamber")
 		"Rechamber":
 			can_fire = true
+			if temp_ammo > 0:
+				loaded_magazine(temp_ammo)
+				temp_ammo = 0
+				# rechambers after reload
+				reloading = false
 		"ResetPosition":
-			can_fire = true
+			if has_bullets_left():
+				can_fire = true
+		"Reload":
+			anim.play("Rechamber")
 
 
 func move_away():

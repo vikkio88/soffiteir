@@ -3,7 +3,7 @@ extends Spatial
 var rng : RandomNumberGenerator
 
 var enemies = 1
-var max_enemies = 5
+var max_enemies = 10
 
 const SPAWN_RANGE = {
 	"min": Vector3(4,1.5,-170),

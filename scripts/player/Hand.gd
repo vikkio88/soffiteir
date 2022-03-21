@@ -19,6 +19,11 @@ var fview = {
 	"ads": 45,
 }
 
+var magazines = {
+	WeaponEnums.TYPES.AR: {"count": 5, "ammo":25},
+	WeaponEnums.TYPES.SNIPER: {"count":4, "ammo":5}
+}
+
 export var camera_node_path : NodePath
 export var player_node_path : NodePath
 var camera: Camera
@@ -36,6 +41,13 @@ func _ready():
 	player = get_node(player_node_path)
 	fview["default"] = camera.fov
 	ads_lerp = activeWeapon.ads_speed
+	call_deferred('init_hud')
+	
+	
+func init_hud():
+	activeWeapon.mag_update()
+	EventBus.emit_signal("weapon_switch", activeWeapon.type)
+	EventBus.emit_signal("player_mags_update", magazines)
 
 func _input(event):
 	if event is InputEventMouseMotion:
@@ -43,16 +55,32 @@ func _input(event):
 
 func switch_weapon(index: int):
 	match index:
-		1:
+		WeaponEnums.TYPES.SNIPER:
 			ar.visible = false
 			sniper.visible = true
 			activeWeapon = sniper
-		2:
+		WeaponEnums.TYPES.AR:
 			ar.visible = true
 			sniper.visible = false
 			activeWeapon = ar
 	
 	ads_lerp = activeWeapon.ads_speed
+	
+	EventBus.emit_signal("weapon_switch", activeWeapon.type)
+	activeWeapon.mag_update()
+
+func reload():
+	if magazines[activeWeapon.type].count < 1:
+		print_debug("no more mag for type %s" % activeWeapon.type)
+		return
+	
+	if activeWeapon.is_reloading():
+		print_debug("cannot reload while reloading")
+		return
+	
+	magazines[activeWeapon.type].count -= 1
+	activeWeapon.load_magazine(magazines[activeWeapon.type].ammo)
+	EventBus.emit_signal("player_mags_update", magazines)
 
 func _process(delta):
 	if Input.is_action_pressed("ads"):
@@ -78,15 +106,16 @@ func has_bolt_action() -> bool:
 	return activeWeapon.is_bolt_action
 
 func shoot_weapon(delta) -> float:
-	if activeWeapon.can_fire:
-		return activeWeapon.shoot(delta, player.is_on_ads)
-	else:
-		return .0
+	return activeWeapon.shoot(delta, player.is_on_ads)
 
 
 func _on_WeaponBounds_body_entered(body):
+	if body.is_in_group("Player"):
+		return
 	activeWeapon.move_away()
 
 
 func _on_WeaponBounds_body_exited(body):
+	if body.is_in_group("Player"):
+		return
 	activeWeapon.reset_position()
