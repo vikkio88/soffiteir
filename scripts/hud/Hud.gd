@@ -6,6 +6,7 @@ onready var Damage = $Damage
 onready var KillFeed = $KillFeed
 onready var Ammo = $Ammo
 onready var Mags = $Mags
+onready var Interact = $Interact
 
 onready var killSound = $Kill
 onready var hitSound = $Hit
@@ -25,6 +26,7 @@ func _ready():
 	EventBus.connect("mag_update", self, "report_mag_update")
 	EventBus.connect("weapon_switch", self, "report_weapon_switch")
 	EventBus.connect("player_mags_update", self, "update_player_mags")
+	EventBus.connect("interactable_triggered", self, "update_interact")
 
 func report_hit(distance):
 	Info.text = "%d m" % distance
@@ -60,5 +62,8 @@ func report_weapon_switch(type):
 	weaponType = type
 	if player_mags != null:
 		update_player_mags()
+
+func update_interact(text):
+	Interact.text = text
 
 

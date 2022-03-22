@@ -86,6 +86,14 @@ margin_bottom = -4.0
 rect_pivot_offset = Vector2( -468, -415 )
 custom_fonts/font = ExtResource( 3 )
 
+[node name="Interact" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.9
+anchor_right = 0.5
+anchor_bottom = 0.9
+margin_bottom = -8.0
+custom_fonts/font = ExtResource( 3 )
+
 [connection signal="timeout" from="Damage/Timer" to="Damage" method="_on_Timer_timeout"]
 [connection signal="timeout" from="Info/Timer" to="Info" method="_on_Timer_timeout"]
 [connection signal="timeout" from="KillFeed/Timer" to="KillFeed" method="_on_Timer_timeout"]

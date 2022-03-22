@@ -70,6 +70,10 @@ func switch_weapon(index: int):
 	activeWeapon.mag_update()
 
 func reload():
+	if activeWeapon.blocked:
+		print_debug("weapon is blocked")
+		return
+		
 	if magazines[activeWeapon.type].count < 1:
 		print_debug("no more mag for type %s" % activeWeapon.type)
 		return
@@ -78,8 +82,11 @@ func reload():
 		print_debug("cannot reload while reloading")
 		return
 	
-	magazines[activeWeapon.type].count -= 1
 	activeWeapon.load_magazine(magazines[activeWeapon.type].ammo)
+	update_mags(activeWeapon.type, -1)
+
+func update_mags(type, diff):
+	magazines[type].count += diff
 	EventBus.emit_signal("player_mags_update", magazines)
 
 func _process(delta):

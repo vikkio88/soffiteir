@@ -94,7 +94,7 @@ func set_ads(value:bool):
 func _physics_process(delta):
 	if not is_mouse_captured:
 		return
-	
+			
 	if Input.is_action_just_released("reload"):
 		Hand.reload()
 	
@@ -138,4 +138,3 @@ func _physics_process(delta):
 	move_and_slide_with_snap(movement, snap, Vector3.UP)
 	if direction != Vector3.ZERO:
 		cameraAnim.play("Headbob")
-

@@ -2,6 +2,8 @@ extends Spatial
 
 class_name Weapon
 
+export var HandPath:NodePath
+
 onready var bullet = preload("res://scenes/entities/Bullet.tscn")
 
 var is_bolt_action = true
@@ -13,12 +15,15 @@ var ads_speed = 20
 
 var can_fire = true
 var reloading = false
+var blocked = false
 
 var type = WeaponEnums.TYPES.NONE
 
 var bullets = 0
 
 var starting_bullets = 0
+
+var Hand:Node
 
 func first_mag():
 	bullets = starting_bullets
@@ -36,7 +41,7 @@ func is_reloading()-> bool:
 	return reloading
 
 func can_shoot() -> bool:
-	return can_fire and not is_reloading()
+	return can_fire and not is_reloading() and not blocked
 	
 func load_magazine(ammo):
 	perform_reload(ammo)
@@ -83,8 +88,10 @@ func shoot(delta,is_on_ads: bool)-> float:
 
 func move_away():
 	can_fire = false
+	blocked = true
 	print_debug("moving away")
 
 func reset_position():
 	can_fire = true
+	blocked = true
 	print_debug("resetting")

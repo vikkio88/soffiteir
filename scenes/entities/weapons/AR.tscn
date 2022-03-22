@@ -1,10 +1,11 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://models/ar.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://scripts/weapons/AR.gd" type="Script" id=2]
 [ext_resource path="res://sounds/weapons/single_shot.wav" type="AudioStream" id=3]
 [ext_resource path="res://textures/flash07.png" type="Texture" id=4]
 [ext_resource path="res://sounds/weapons/dryfire4.wav" type="AudioStream" id=5]
+[ext_resource path="res://sounds/weapons/reload1.mp3" type="AudioStream" id=6]
 
 [sub_resource type="SpatialMaterial" id=16]
 flags_transparent = true
@@ -100,10 +101,22 @@ tracks/1/keys = {
 "update": 0,
 "values": [ false ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("Gun:rotation_degrees")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, -180, 0 ) ]
+}
 
 [sub_resource type="Animation" id=24]
 resource_name = "Reload"
-length = 1.5
+length = 2.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("Gun/MagRelease:emitting")
 tracks/0/interp = 1
@@ -123,7 +136,19 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 1 ),
+"times": PoolRealArray( 1.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Reload:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
 "values": [ true ]
@@ -229,8 +254,13 @@ cast_shadow = 0
 emitting = false
 amount = 1
 lifetime = 0.1
+one_shot = true
 process_material = SubResource( 18 )
 draw_pass_1 = SubResource( 19 )
+
+[node name="CloseHit" type="RayCast" parent="Gun/Muzzle"]
+enabled = true
+cast_to = Vector3( 0, 0, 6 )
 
 [node name="Shell" type="Particles" parent="Gun"]
 transform = Transform( -3.97396, -0.0943719, -0.445888, 0.449248, -0.151771, -3.9718, 0.06399, -3.33002, 0.134485, -0.195985, 0.936383, 0.819897 )
@@ -271,5 +301,8 @@ volume_db = 2.0
 
 [node name="NoAmmo" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
+
+[node name="Reload" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
 
 [connection signal="animation_finished" from="Animation" to="." method="_on_Animation_animation_finished"]

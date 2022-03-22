@@ -16,7 +16,6 @@ func _ready():
 
 func check_hit(ray):
 	if ray.is_colliding():
-		print_debug("collided")
 		var collisionbody = ray.get_collider()
 		var bulletHole = hole.instance()
 		collisionbody.add_child(bulletHole)
@@ -34,7 +33,7 @@ func check_hit(ray):
 			return true
 		
 		return false
-			
+
 
 func _physics_process(delta):
 	var hit = check_hit(rayFront)
@@ -65,6 +64,12 @@ func shoot_from(muzzle_transform, bullet_speed, damage):
 	starting_point = global_transform.origin
 	var forward_dir = global_transform.basis.z.normalized()
 	apply_impulse(-forward_dir, forward_dir * bullet_speed)
+	$Timer.start()
+
+func hit(ray: RayCast, damage):
+	base_damage = damage
+	starting_point = ray.get_collision_point()
+	check_hit(ray)
 	$Timer.start()
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://models/sniper.obj" type="ArrayMesh" id=1]
 [ext_resource path="res://scripts/weapons/SniperRifle.gd" type="Script" id=2]
@@ -6,7 +6,8 @@
 [ext_resource path="res://sounds/weapons/sniper_shot.wav" type="AudioStream" id=4]
 [ext_resource path="res://sounds/weapons/sniper_cocking.wav" type="AudioStream" id=5]
 [ext_resource path="res://sounds/weapons/dryfire5.wav" type="AudioStream" id=6]
-[ext_resource path="res://sounds/weapons/mag_reload.wav" type="AudioStream" id=7]
+[ext_resource path="res://sounds/weapons/mag_clatter.wav" type="AudioStream" id=7]
+[ext_resource path="res://sounds/weapons/mag_eject.wav" type="AudioStream" id=8]
 
 [sub_resource type="SpatialMaterial" id=5]
 flags_transparent = true
@@ -199,6 +200,30 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
+"times": PoolRealArray( 1.2 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("ReloadSounds/Remove:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("ReloadSounds/Add:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
 "times": PoolRealArray( 1.1 ),
 "transitions": PoolRealArray( 1 ),
 "update": 1,
@@ -299,6 +324,11 @@ one_shot = true
 process_material = SubResource( 6 )
 draw_pass_1 = SubResource( 7 )
 
+[node name="CloseHit" type="RayCast" parent="Gun/Muzzle"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.05291e-09, 0, -4.76837e-07 )
+enabled = true
+cast_to = Vector3( 0, 0, 10 )
+
 [node name="Shell" type="Particles" parent="Gun"]
 transform = Transform( -1.98729, -0.024307, -0.223853, 0.224624, -0.0758857, -1.9859, 0.015642, -1.99842, 0.0781332, -0.200357, 1.00816, 1.24902 )
 emitting = false
@@ -342,7 +372,12 @@ stream = ExtResource( 5 )
 [node name="NoAmmo" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
 
-[node name="Reload" type="AudioStreamPlayer" parent="."]
+[node name="ReloadSounds" type="Node" parent="."]
+
+[node name="Remove" type="AudioStreamPlayer" parent="ReloadSounds"]
+stream = ExtResource( 8 )
+
+[node name="Add" type="AudioStreamPlayer" parent="ReloadSounds"]
 stream = ExtResource( 7 )
 
 [connection signal="animation_finished" from="Animation" to="." method="_on_Animation_animation_finished"]

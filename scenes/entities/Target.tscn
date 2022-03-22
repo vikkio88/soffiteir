@@ -68,7 +68,6 @@ tracks/1/keys = {
 }
 
 [node name="Target" type="RigidBody" groups=["Enemy"]]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 mass = 52.29
 script = ExtResource( 1 )
 
