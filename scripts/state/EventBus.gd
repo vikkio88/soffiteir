@@ -9,3 +9,5 @@ signal mag_update(type, bullets, starting_bullets)
 signal weapon_switch(type)
 
 signal interactable_triggered(text)
+
+signal mags_pickup(quantity, type)

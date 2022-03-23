@@ -20,8 +20,8 @@ var fview = {
 }
 
 var magazines = {
-	WeaponEnums.TYPES.AR: {"count": 5, "ammo":25},
-	WeaponEnums.TYPES.SNIPER: {"count":4, "ammo":5}
+	WeaponEnums.TYPES.AR: {"count": 5, "ammo":25, "max": 5},
+	WeaponEnums.TYPES.SNIPER: {"count":5, "ammo":5, "max": 5}
 }
 
 export var camera_node_path : NodePath
@@ -42,6 +42,7 @@ func _ready():
 	fview["default"] = camera.fov
 	ads_lerp = activeWeapon.ads_speed
 	call_deferred('init_hud')
+	EventBus.connect("mags_pickup", self, "picked_mag")
 	
 	
 func init_hud():
@@ -88,6 +89,14 @@ func reload():
 func update_mags(type, diff):
 	magazines[type].count += diff
 	EventBus.emit_signal("player_mags_update", magazines)
+
+func picked_mag(quantity, mag_type):
+	var weaponType = mag_type if mag_type != WeaponEnums.TYPES.NONE else activeWeapon.type
+	# need to check when we pickup more than one at the time we only get 1
+	if magazines[weaponType].count + quantity > magazines[weaponType].max:
+		return
+		
+	update_mags(weaponType, quantity)
 
 func _process(delta):
 	if Input.is_action_pressed("ads"):

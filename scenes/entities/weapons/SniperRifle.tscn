@@ -327,7 +327,7 @@ draw_pass_1 = SubResource( 7 )
 [node name="CloseHit" type="RayCast" parent="Gun/Muzzle"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9.05291e-09, 0, -4.76837e-07 )
 enabled = true
-cast_to = Vector3( 0, 0, 10 )
+cast_to = Vector3( 0, 0, 20 )
 
 [node name="Shell" type="Particles" parent="Gun"]
 transform = Transform( -1.98729, -0.024307, -0.223853, 0.224624, -0.0758857, -1.9859, 0.015642, -1.99842, 0.0781332, -0.200357, 1.00816, 1.24902 )
