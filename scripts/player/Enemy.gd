@@ -6,7 +6,7 @@ onready var anim = $Animation
 onready var timer = $Timer
 
 var health = 100
-var speed = 5.0
+var speed = 8.0
 
 var move = false
 var player:Spatial = null
@@ -43,7 +43,9 @@ func receive_damage(dmg, hit_point):
 	var is_headshot = false
 	if distance_from_head < .58:
 		is_headshot = true
-		dmg = 90 - dmg if dmg < 30 else dmg * 2
+		dmg = dmg * 2
+		if dmg < 100:
+			dmg = 100 if rand_range(0, 100) > 20 else dmg
 		
 	health-=dmg
 	health = 0 if health < 0 else health

@@ -14,6 +14,7 @@ func _ready():
 	is_bolt_action = false
 	type = WeaponEnums.TYPES.AR
 	starting_bullets = 25
+	bullet_damage = 25
 	first_mag()
 
 func empty_mag():
