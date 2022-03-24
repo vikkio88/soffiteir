@@ -58,9 +58,9 @@ func _on_Animation_animation_finished(anim_name):
 				# rechambers after reload
 				reloading = false
 		"ResetPosition":
+			blocked = false
 			if has_bullets_left():
 				can_fire = true
-				blocked = false
 		"Reload":
 			anim.play("Rechamber")
 
