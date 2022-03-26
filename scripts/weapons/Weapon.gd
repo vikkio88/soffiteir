@@ -12,6 +12,7 @@ var bullet_speed = 1
 var bullet_damage = 10
 
 var ads_speed = 20
+var ads_fov = 45
 
 var can_fire = true
 var reloading = false

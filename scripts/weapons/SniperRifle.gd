@@ -17,6 +17,7 @@ func _ready():
 	ads_speed = 10
 	type = WeaponEnums.TYPES.SNIPER
 	starting_bullets = 5
+	ads_fov = 30
 	first_mag()
 		
 

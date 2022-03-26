@@ -14,10 +14,7 @@ export var sway_right: Vector3
 export var sway_normal: Vector3
 
 
-var fview = {
-	"default": 70,
-	"ads": 45,
-}
+var fview_default = 70
 
 var magazines = {
 	WeaponEnums.TYPES.AR: {"count": 5, "ammo":25, "max": 5},
@@ -39,7 +36,7 @@ onready var activeWeapon = $SniperRifle
 func _ready():
 	camera = get_node(camera_node_path)
 	player = get_node(player_node_path)
-	fview["default"] = camera.fov
+	fview_default = camera.fov
 	ads_lerp = activeWeapon.ads_speed
 	call_deferred('init_hud')
 	EventBus.connect("mags_pickup", self, "picked_mag")
@@ -100,12 +97,13 @@ func picked_mag(quantity, mag_type):
 
 func _process(delta):
 	if Input.is_action_pressed("ads"):
+		var ads_value = activeWeapon.ads_fov
 		transform.origin = transform.origin.linear_interpolate(ads_pos, ads_lerp * delta)
-		camera.fov =  lerp(camera.fov, fview["ads"], ads_lerp * delta)
+		camera.fov =  lerp(camera.fov, ads_value, ads_lerp * delta)
 		player.set_ads(true)
 	else:
 		transform.origin = transform.origin.linear_interpolate(default_pos, ads_lerp * delta)
-		camera.fov =  lerp(camera.fov, fview["default"], ads_lerp * delta)
+		camera.fov =  lerp(camera.fov, fview_default, ads_lerp * delta)
 		player.set_ads(false)
 	
 	var on_ads = player.is_on_ads
