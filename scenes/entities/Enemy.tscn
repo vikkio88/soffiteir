@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://scripts/player/Enemy.gd" type="Script" id=1]
 
@@ -23,6 +23,9 @@ albedo_color = Color( 0.878431, 0.619608, 0.619608, 1 )
 material = SubResource( 6 )
 radius = 0.3
 height = 0.7
+
+[sub_resource type="ConvexPolygonShape" id=15]
+points = PoolVector3Array( 0, 0, 0, 20, 5, 5, 20, -5, 5, 20, -5, -5, 20, 5, -5 )
 
 [sub_resource type="Animation" id=11]
 resource_name = "Death"
@@ -93,6 +96,13 @@ mesh = SubResource( 10 )
 skeleton = NodePath("")
 material/0 = null
 
+[node name="ViewCone" type="Area" parent="Head"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.33068, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Head/ViewCone"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.34939, 0 )
+shape = SubResource( 15 )
+
 [node name="Animation" type="AnimationPlayer" parent="."]
 reset_on_save = false
 anims/Death = SubResource( 11 )
@@ -111,6 +121,8 @@ shape = SubResource( 14 )
 wait_time = 2.0
 autostart = true
 
+[connection signal="body_entered" from="Head/ViewCone" to="." method="_on_ViewCone_body_entered"]
+[connection signal="body_exited" from="Head/ViewCone" to="." method="_on_ViewCone_body_exited"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
 [connection signal="body_entered" from="ViewField" to="." method="_on_ViewField_body_entered"]
 [connection signal="body_exited" from="ViewField" to="." method="_on_ViewField_body_exited"]
