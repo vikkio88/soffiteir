@@ -76,3 +76,13 @@ func _on_ViewField_body_exited(body):
 func _on_ActionTimer_timeout():
 	if move and player:
 		move_to(player.global_transform.origin)
+
+
+func _on_ViewCone_body_entered(body):
+	if body.is_in_group("Player"):
+		print_debug("I see player")
+
+
+func _on_ViewCone_body_exited(body):
+	if body.is_in_group("Player"):
+		print_debug("I cannot see the player anymore")
