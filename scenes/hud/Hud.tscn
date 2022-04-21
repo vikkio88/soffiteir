@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://scripts/hud/Info.gd" type="Script" id=1]
 [ext_resource path="res://scripts/hud/KillFeed.gd" type="Script" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://sounds/sfx/switch_003.ogg" type="AudioStream" id=5]
 [ext_resource path="res://sounds/sfx/impactMining_000.ogg" type="AudioStream" id=6]
 [ext_resource path="res://sounds/sfx/switch_002.ogg" type="AudioStream" id=7]
+[ext_resource path="res://scripts/hud/Header.gd" type="Script" id=8]
+[ext_resource path="res://fonts/Big.tres" type="DynamicFont" id=9]
 
 [sub_resource type="GDScript" id=7]
 script/source = "extends Label
@@ -94,6 +96,21 @@ anchor_bottom = 0.9
 margin_bottom = -8.0
 custom_fonts/font = ExtResource( 3 )
 
+[node name="Header" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.05
+anchor_right = 0.5
+anchor_bottom = 0.1
+margin_right = 40.0
+margin_bottom = 14.0
+custom_fonts/font = ExtResource( 9 )
+align = 1
+script = ExtResource( 8 )
+
+[node name="Timer" type="Timer" parent="Header"]
+wait_time = 2.5
+
 [connection signal="timeout" from="Damage/Timer" to="Damage" method="_on_Timer_timeout"]
 [connection signal="timeout" from="Info/Timer" to="Info" method="_on_Timer_timeout"]
 [connection signal="timeout" from="KillFeed/Timer" to="KillFeed" method="_on_Timer_timeout"]
+[connection signal="timeout" from="Header/Timer" to="Header" method="_on_Timer_timeout"]

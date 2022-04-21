@@ -94,7 +94,10 @@ func set_ads(value:bool):
 func _physics_process(delta):
 	if not is_mouse_captured:
 		return
-			
+	
+	if Input.is_action_just_released("trigger_debug"):
+		EventBus.emit_signal("game_event", "Test")
+	
 	if Input.is_action_just_released("reload"):
 		Hand.reload()
 	

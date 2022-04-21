@@ -1,6 +1,7 @@
 extends Control
 
 
+onready var Header = $Header
 onready var Info = $Info
 onready var Damage = $Damage
 onready var KillFeed = $KillFeed
@@ -27,6 +28,8 @@ func _ready():
 	EventBus.connect("weapon_switch", self, "report_weapon_switch")
 	EventBus.connect("player_mags_update", self, "update_player_mags")
 	EventBus.connect("interactable_triggered", self, "update_interact")
+	
+	EventBus.connect("game_event", self, "report_game_event")
 
 func report_hit(distance):
 	Info.text = "%d m" % distance
@@ -62,6 +65,10 @@ func report_weapon_switch(type):
 	weaponType = type
 	if player_mags != null:
 		update_player_mags()
+
+func report_game_event(type):
+	Header.text = type;
+	$Header/Timer.start()
 
 func update_interact(text):
 	Interact.text = text
