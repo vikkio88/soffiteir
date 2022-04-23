@@ -2,9 +2,6 @@ extends Spatial
 
 var rng : RandomNumberGenerator
 
-var enemies = 1
-var max_enemies = 20
-
 const SPAWN_RANGE = {
 	"min": Vector3(4,1.5,-170),
 	"max": Vector3(84, 1.5,40)
@@ -17,6 +14,8 @@ onready var spawns = [
 	$Navigation/NavigationMeshInstance/Spawn/Spawn4
 ]
 onready var nav = $Navigation
+
+onready var Waves = $Waves
 
 onready var target = preload("res://scenes/entities/Target.tscn")
 onready var enemy = preload("res://scenes/entities/Enemy.tscn")
@@ -35,11 +34,11 @@ func spawn_enemy():
 	e.global_transform.origin = spawns[rand_range(0, spawns.size())].global_transform.origin
 	e.global_transform.origin.y = 1.5
 	e.set_chasing($Player)
-	enemies +=1
+	Waves.report_enemy_change(1)
 
 func enemy_removed(is_headshot):
-	enemies -=1
+	Waves.report_enemy_change(-1)
 	
 func _on_Tick_timeout():
-	if enemies < max_enemies:
+	if Waves.should_spawn():
 		spawn_enemy()

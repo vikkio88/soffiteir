@@ -1,12 +1,10 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://scripts/levels/TestRoom.gd" type="Script" id=1]
-[ext_resource path="res://scenes/entities/Target.tscn" type="PackedScene" id=2]
 [ext_resource path="res://scenes/entities/Player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://materials/walls.tres" type="Material" id=4]
 [ext_resource path="res://materials/floor.tres" type="Material" id=5]
 [ext_resource path="res://scenes/entities/items/Crate.tscn" type="PackedScene" id=6]
-[ext_resource path="res://scenes/entities/Enemy.tscn" type="PackedScene" id=7]
 [ext_resource path="res://scenes/libs/Waves.tscn" type="PackedScene" id=8]
 
 [sub_resource type="NavigationMesh" id=1]
@@ -27,9 +25,6 @@ transform = Transform( 1, 0, 0, 0, 0.995097, 0.0989029, 0, -0.0989029, 0.995097,
 
 [node name="Sun" type="DirectionalLight" parent="pivot"]
 transform = Transform( 0.773298, 0.0222716, 0.633651, -0.630934, 0.125872, 0.765558, -0.0627087, -0.991797, 0.111388, 0, 40, 0 )
-
-[node name="Target" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.54296, 1.5, -19.9261 )
 
 [node name="Navigation" type="Navigation" parent="."]
 
@@ -126,9 +121,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 0, 65 )
 
 [node name="Spawn4" type="Spatial" parent="Navigation/NavigationMeshInstance/Spawn"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 55, 0, -14 )
-
-[node name="Enemy" parent="Navigation/NavigationMeshInstance" instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 1.5, -3 )
 
 [node name="Tick" type="Timer" parent="."]
 wait_time = 2.0
