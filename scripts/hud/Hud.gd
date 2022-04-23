@@ -51,7 +51,6 @@ func report_target_damaged(dmg, is_headshot):
 	$Damage/Timer.start()
 
 func report_mag_update(type, bullets, starting_bullets):
-	print_debug("mag up", type, bullets, starting_bullets)
 	Ammo.text = "%d / %d" % [bullets, starting_bullets]
 
 func update_player_mags(mags = null):
